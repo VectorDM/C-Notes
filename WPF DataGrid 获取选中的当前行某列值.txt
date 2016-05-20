@@ -1,0 +1,33 @@
+方法一：  
+DataRowView mySelectedElement = (DataRowView)dataGrid1.SelectedItem;   
+string result = mySelectedElement.Row[0]ToString();   
+  
+方法二：  
+var a = this.dataGrid1.SelectedItem;  
+var b = a as DataRowView;  
+string result = b.Row[0].ToString();  
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var a = this.DataGrid.SelectedItem;
+            var b = a as DataRowView;
+            if (b != null)
+            {
+                var id = b.Row[0];
+                var name = b.Row[1];
+                var countryCode = b.Row[2];
+                var district = b.Row[3];
+                var population = b.Row[4];
+
+                TextBoxId.Text = id.ToString();
+                TextBoxName.Text = name.ToString();
+                TextBoxCountryCode.Text = countryCode.ToString();
+                TextBoxDistrict.Text = district.ToString();
+                TextBoxPopulatin.Text = population.ToString();
+            }
+            else
+            {
+                return;
+            }
+
+        }
