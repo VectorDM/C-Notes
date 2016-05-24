@@ -1,7 +1,8 @@
 方法一：  
 DataRowView mySelectedElement = (DataRowView)dataGrid1.SelectedItem;   
 string result = mySelectedElement.Row[0]ToString();   
-  
+
+nothing
 方法二：  
 var a = this.dataGrid1.SelectedItem;  
 var b = a as DataRowView;  
