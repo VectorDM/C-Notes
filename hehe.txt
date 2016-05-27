@@ -1,1 +1,14 @@
-hello
+git commit --amend
+git line
+gitk&
+git log --stat 00000000ma
+git checkout mamamm 文件名
+
+$ cd common-conf
+$ ./setEnv.sh
+$ ./setZh.sh
+
+$ bash /c/gitcc.sh ab4ea59
+
+$ git config --global core.quotepath false//不能显示中文时
+$ git config --global core.editor "notepad"//添加修改注释的编辑器为记事本
