@@ -1,0 +1,386 @@
+学习编程的路径：
+纵向：语言->类库->框架
+横向：命令行程序->桌面程序->设备程序（手机/平板）->Web（网站/服务）程序->游戏...
+
+学习原则：
+从感官到原理
+从使用别人的到创建自己的
+必须亲自动手
+必须学以致用、紧跟实际工作
+追求实用，不搞“学院派”
+
+DLL引用
+NuGet 优化依赖关系 高内聚、低耦合
+EntityFramework
+
+项目引用
+solution添加project，然后添加项目引用
+
+添加Class library引用
+
+变量与实例：
+1.孩子与气球;类变量相当于孩子，实例相当于气球
+2.气球不一定有孩子牵着；
+3.可以多个孩子牵同一个气球，也就是多个变量可以共用一个实例；也可以都通过同一根绳子牵着气球（ref操作符）。
+例如：
+Form myForm1;
+Form myForm2;
+myForm1 = new Form();
+myForm2 = myForm1;
+myForm1.Text = "My Form";
+myForm2.Text = "I changed it";
+myForm1.ShowDialog();
+//结果是显示I changed it
+
+类的三大成员（在vs中把光标移到类上按F1可定位到msdn文档）
+属性
+方法
+事件
+某些特殊类或对象在成员方面的侧重点不同
+侧重属性 如Entity Framework
+侧重方法 如Math
+侧重事件 如Timer
+
+静态成员与实例成员
+静态 static 语义上表示是 类的成员
+实例 非静态成员
+Console.WriteLine("hello");//静态
+Form form = new Form();//实例化
+form.Text = "hello";//实例属性
+form.ShowDialog();//实例方法
+绑定指的是编译器把一个成员与类或对象关联起来
+
+C#与语言的基本元素
+标记：
+1.关键字（keyword)
+2.操作符（Operator)+ - & << || ...
+3.标识符（Identifier) 合法标识符，大小写规范（变量：驼峰法，myVarible；其他：帕斯卡尔法，首字母大写,MyClass），命名规范
+4.标点符号
+5.文本（字面值）
+整数 int x = 2(默认int32);(32bit)/ long y = 3L;(64bit)
+浮点 float x = 3.0F;(32bit)/ double y = 4.0(默认D);(64bit)
+字符 char c = 'a';
+字符串 string str = ""/"a"/"aasasa";
+布尔 bool b = true;
+空值 string str = null;
+注释与空白：
+单行注释 //注释内容
+块注释	/*内容*/
+格式化代码 Ctrl+KD
+
+初识类型、变量和方法
+1.类型（type），也称为数据类型
+var i = 3L;
+Console.WriteLine(i.GetType().Name);
+性质相同的数据的集合，有着一套各自的运算操作。比如取整和除法的结果不同
+C#为强类型语言 保证数据的正确性
+C#强于C强于JavaScript
+C#引入dynamic定义变量，类似于JavaScript中的变量定义。
+	dynamic myVar = 100;
+        Console.WriteLine(myVar);
+        myVar = "Mr.OK";
+        Console.WriteLine(myVar);
+数据类型的6个非常重要的特性：
+1.1 数据在内存中占用空间；
+1.2 表示最大、最小 值的范围
+1.3 此类型所包含的成员（如方法、属性、事件等）
+	Type myType = typeof(Form);
+	PropertyInfo[] pInfos = myType.GetProperties();
+	//MethodInfo[] mInfos = myType.GetMethods();
+	//
+	foreach(var p in pInfos)
+		Console.WriteLine(p.Name);		
+1.4 此类型由何基类派生而来
+	Type myType = typeof(Form);
+	Console.WriteLine(myType.BaseType.BaseType.FullName);）
+1.5 程序运行的时候，此类型的变量在分配在内存的什么位置 	|静态时，编译器分析代码，在硬盘中/动态时，在内存中
+	内存中有堆heap和栈stack
+	heap：存储对象，实例；可以有几个G
+	stack：函数调用；不超过2M	
+	StackOverFlow:栈内存超过2M
+	C#有指针，但不推荐使用，使用时必须在指针代码函数用unsafe标识
+	两个都溢出的例子：
+    class Program
+    {
+        static void Main(string[] args)
+        {
+	//1
+            unsafe
+            {
+                int* p = stackalloc int[9999999];
+            }
+	//2
+            BadGuy bg = new BadGuy();
+            bg.BadMethod();
+        }
+    }
+
+    class BadGuy
+    {
+        public void BadMethod()
+        {
+            int x = 100;
+            this.BadMethod();
+        }
+    }
+1.6 此类型所允许的操作（运算）
+	double d = 3.0/4.0和3/4是不同的
+2.变量是存放数据的地方，简称“数据”
+声明和引用
+3.方法（旧称函数）是处理数据的逻辑，又称“算法”
+声明和调用
+4.程序=数据+算法
+有了变量和方法就可以写有意义的程序了
+
+C#语言的类型系统
+1. C#的五大数据类型(均由Object类派生)
+1.1 类(class)(引用类型):如Window,Form,Console,String
+1.2 结构体(structures)(值类型):如Int32,Int64,Single,Double
+1.3 枚举(Enumerations)(值类型):如HorizontalAlignment,Visibility,MessageBoxResult
+1.4 接口类型(interfaces)(引用类型)
+1.5 委托类型(Delegate)(引用类型)
+
+数据类型的派生谱系
+object,string被C#吸收为关键字,常用数据类型,基本数据类型(构成其他类型),同时为引用数据类型||class,interface,delegate不是数据类型,而是去定义数据类型的
+bool,byte,char,decimal,double,float,int,long,sbyte,short,uint,ulong,ushort被C#吸收关键字,基本数据类型,常用数据类型,值数据类型||struct,enum不是数据类型,而是去定义数据类型.
+true,false为bool类型的值||void函数返回值为空,null一个引用变量值为空||var,dynamic声明变量
+
+
+变量,对象和内存
+1.变量->存储数据;变量表示存储位置;变量表示类型;
+1.1 7种变量:静态变量,实例变量,数组变量,值参数,引用参数,输出形参,->局部变量<-,狭义的变量就是局部变量
+2.引用类型变量定义时分配四个字节的内存,实例数据的地址(堆内存上)存在前面分配的四个字节的地址里面.
+3.局部变量在stack上分配内存
+4.实例在heap上分配内存,类成员变量(字段)也在heap上分配内存
+5.类成员变量有默认值(由构造器初始化),本地变量一定要赋值.
+6.常量,值不能变//const
+7.装箱和拆箱[boxing&unboxing],会损失性能.
+装箱:int x = 100; object obj = x;//int值类型,直接在stack上给x分配4个字节空间存储值100||object为引用类型,在stack上给obj分配4个用于存储地址的4个字节空间后,把x变量的值复制到heap上,然后obj得到heap上的地址.
+拆箱:int y = (int)obj;//y变量是值类型,在stack分配4个字节的空间,通过obj找到在heap上的地址,然后把地址里面的值复制到y对应的stack内存里面.
+
+方法的定义与应用
+1.方法的又来
+1.1方法的前身是C/C++语言的函数
+方法是面向对象的范畴,在非面向对象的语言中仍然称为函数.
+函数在类中定义时就称为方法,私下里可称为成员函数
+1.2永远都是类(或结构体)的成员
+C#语言中函数不可能独立于类(或结构体)之外
+只有作为类(结构体)的成员时才被称为方法
+1.3是类(或结构体)最基本的成员之一
+最基本的成员只有两个---字段和方法(成员变量与成员函数),本质还是数据+算法
+方法表示类(或结构体)"能做什么事"
+1.4为什么需要方法和函数
+目的一:隐藏复杂的逻辑
+目的二:复用(reuse,重用)
+2.方法的定义与调用
+2.1声明方法的语法详解
+声明和定义不分家
+Parameter全称应该为formal parameter\\形式上的参数,简称形参\\也是一种变量
+2.2命名规范
+大小写规范
+需要以动词或者动词短语作为名字
+2.3静态方法与实例方法要区分
+2.4方法的调用
+写入实际参数argument
+可理解为调用方法时的真实条件
+实参与形参的匹配(数量与类型)	
+3.构造器constructor(一种特殊的方法)
+3.1构造器是类型的成员之一
+无返回值类型
+与类名完全一致
+//ctor+tab*2,快速定义构造器
+3.2狭义的构造器是指"实例构造器"(instance constructor)
+3.3构造器的内存原理
+对heap的字段地址控件进行初始化或者赋值,其他与前面的引用类型变量的内存存储差不多.
+如果构造函数中有string,object等引用类型的参数,则在heap中存储地址,该地址是string内容存储地址,并且也在heap的另一块可用的内存中.
+4.方法的重载
+名字一样,方法签名不一样
+方法签名:组成->名称,类型参数<T>的个数和它的每一个形参(由左往右的顺序)的类型和种类(值,引用ref或输出out)组成.方法签名不包含返回类型.
+构造器也可重载
+5.如何对方法进行debug
+5.1设置断点
+5.2观察方法调用时的call stack
+5.3step-into进入方法(一步一步最仔细的调用方法F11), step-over(跳过,大范围的定位,效率高F10),step-out(回到调用它的那一层上去,shift+F11).
+5.4观察局部变量的值与变化,locals变量的变化
+6.方法的调用与栈
+函数的返回值存在CPU的寄存器上
+
+操作符(operator)内容
+1.操作符的本质
+1.1操作符的本质是函数(即算法)的"简记法"
+如果没有发明"+"和"*",只有Add函数和Mul函数,那么3+4*5将只能写成Add(3,Mul(4,5)),注意优先级.
+1.2操作符不能脱离与它关联的数据类型
+可以说操作符就是与固定数据类型相关联的一套基本算法的简记法.
+2.操作符的优先级与运算顺序
+2.1可以用圆括号提高被括起来表达式的优先级
+圆括号可以嵌套
+"[]","{}"在C#中有专门的用途:
+int[] myIntArry = new int[5]{1,2,3,4,5};//int[] myIntArry = new int[5];//int[] myIntArry = new int[]{1,2,3,4,5};
+//Dictionary<TKey, TValue> Class.
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Dictionary<TKey, TValue> Class.
+            Dictionary<string,Student> stuDic = new Dictionary<string, Student>();
+            for (int i = 0; i < 100; i++)
+            {
+                Student stu = new Student();
+                stu.Name = "s_" + i.ToString();
+                stu.Score = 100 + i;
+                stuDic.Add(stu.Name,stu);
+            }
+	    //The "[]" operator is not just int type inside, it maybe string type.
+            Student number6 = stuDic["s_6"];
+            Console.WriteLine(number6.Score);
+        }
+    }
+
+    class Student
+    {
+        public string Name;
+        public int Score;
+    }
+2.2同优先级操作符的运算顺序
+除了带有赋值功能的操作符,同优先级操作符都是由左向右进行运算;3+4+5...
+带有赋值功能的操作符的运算顺序是由右向左;int x=100;int y=200;x+=y;"+="有赋值功能;//int z=300;x+=y+=z;//c.w->z=300,y=500,x=600;
+与数学不同,计算机语言的同优先级运算没有"结合律",3+4+5为Add(Add(3,4),5)不能是Add(3,Add(4,5)).
+-----------------------------------------------------------------------------
+int y = x--;先赋值再运算
+-----------------------------------------------------------------------------
+注意typeof():
+            Type t = typeof (int);
+            Console.WriteLine(t.Namespace);
+            Console.WriteLine(t.FullName);
+            Console.WriteLine(t.Name);
+            int c = t.GetMethods().Length;
+            foreach (var mi in t.GetMethods())
+            {
+                Console.WriteLine(mi.Name);
+            }
+            Console.WriteLine(c);
+-----------------------------------------------------------------------------
+注意default();//引用类型null;int等值类型为0;特别注意enum类型,没赋值第1个默认|赋值有0的,0那个字段默认|赋值没0的,0默认|
+-----------------------------------------------------------------------------
+new操作符:
+功能1:在内存中构建一个实例new Form,并且调用实例构造器new Form();还可以指向一个变量Form myForm = new Form();可以通过变量来操作实例.
+功能2,实例的初始化器:可以给实例的属性赋值Form myForm = new Form(){Text = "Hello",FormBroderStyle = FormBroderStyle.SizableToolWindow};
+new Form(){Text = "hello"}.ShowDialog();//也是可以显示一个窗口的,New和.的优先级相同,并且无赋值操作符,所以从左往右依次执行//但是这样也没有意义
+不一定实例都要用new创建,如string name = "呵呵呵"|int[] myArray = {1,2,3,4,5};
+new创建匿名类型:
+            // anonymous type use
+            var person = new {Name = "Mr.Ok", Age = 34};
+            Console.WriteLine(person.Age);
+            Console.WriteLine(person.Name);
+            Console.WriteLine(person.GetType().Name);
+-----------------------------------------------------------------------------
+var关键字:声明隐式类型变量(int x;//显式);var = 100;//int32|var = 100L;//long|...多使用var定义
+-----------------------------------------------------------------------------
+使用new操作符的时候也要十分小心:当类里面的主方法运行时,主方法里面new一个类的实例,那么这两个类就相互关联,依赖,紧耦合,若主方法里面的实例出现异常,必然会影响到外层类.
+-----------------------------------------------------------------------------
+new可以做修饰符,子类对父类方法的隐藏,声明方法前new
+-----------------------------------------------------------------------------
+checked运算符和unchecked运算符,检查变量是否溢出:
+对语句的检查:
+            // var overflow
+            uint x = uint.MaxValue;
+            Console.WriteLine(x);
+            string binStr = Convert.ToString(x, 2);
+            Console.WriteLine(binStr);
+            //uint y = x + 1;//y == 0 is true, default is unchecked mode
+            try
+            {
+                uint y = checked(x + 1);// overflow exception
+                //uint y = unchecked (x + 1);//default is unchecked mode
+                Console.WriteLine(y);
+            }
+            catch (OverflowException ex)
+            {
+                Console.WriteLine("There's overflow");
+            }
+对语句块的检查:
+           // var overflow
+            uint x = uint.MaxValue;
+            Console.WriteLine(x);
+            string binStr = Convert.ToString(x, 2);
+            Console.WriteLine(binStr);
+            //uint y = x + 1;//y == 0 is true, default is unchecked mode
+            checked
+            {
+                try
+                {
+                    //uint y = checked(x + 1);// overflow exception
+                    uint y = x + 1;
+                    //uint y = unchecked (x + 1);//default is unchecked mode
+                    Console.WriteLine(y);
+                }
+                catch (OverflowException ex)
+                {
+                    Console.WriteLine("There's overflow");
+                }
+                
+            }
+-----------------------------------------------------------------------------
+delegate操作符(过时的技术):
+使用delegate操作符来声明匿名方法(不会被reuse,没有名字)
+this.MyButton.Click += delegate(object sender, RouteEventArgs e)
+{
+	this.MyTextbox.Text = "hello";
+};
+现在使用lambda表达式
+this.MyButton.Click += (sender, e) =>
+{
+	this.MyTextbox.Text = "hello";
+};
+-----------------------------------------------------------------------------
+sizeof操作符,获取对象在内存中字节数的尺寸 int x = sizeof(int);
+注意1:sizeof只能获取基本类型实例(结构体数据类型),string和object除外;
+注意2:非默认情况下(在unsafe作用域内),可以使用sizeof获取自定义结构体在内存中的字节大小;
+-----------------------------------------------------------------------------
+->操作符
+C#存在指针,->操作符就是结构体指针变量指向其结构体成员,指针不能使用在引用类型变量中
+    struct CsStudent
+    {
+        public int ID;
+        public int Score;
+    }
+//main中
+    	    //"->" operator use
+            unsafe
+            {
+                CsStudent stu;
+                stu.ID = 1;
+                stu.Score = 99;
+                CsStudent* pStu = &stu;
+		(*pStu).Score = 1000;
+                pStu->Score = 100;
+                Console.WriteLine(stu.Score);
+            }
+-----------------------------------------------------------------------------
+
+
+一元操作符,一个变量也可以操作
++,-,!,~,++x,--x,(T)x,await,&x,*x;
+-----------------------------------------------------------------------------
+&x和*x,不安全操作符
+CsStudent* pStu = &stu;
+(*pStu).Score = 1000;//优先级..
+pStu->Score = 100;
+-----------------------------------------------------------------------------
++,-操作符,与数学类似
+int x = 100;
+int y = +x;//y==100
+int y = -x;//y==-100,运算为按位取反再加1
+int y = -(-x);//y==100
+注意:
+int x = int.MinValue;
+int y = checked(-x);//overflow,若y=-x,则y还是等于int.MinValue
+-----------------------------------------------------------------------------
+~按位取反
+-----------------------------------------------------------------------------
+!取非操作符,操作bool类型值,常用在if判断中
+-----------------------------------------------------------------------------
+++x,--x,先自我运算,如果有赋值运算符就后赋值(与x++等相反)
+
+
+
